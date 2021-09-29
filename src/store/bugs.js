@@ -64,12 +64,19 @@ const slice = createSlice({
       const index = bugs.findIndex((bug) => bug.id === action.payload.id);
       bugs[index].resolved = true;
     },
+
+    bugAssignedToUser: (bugs, action) => {
+      const { bugId, userId } = action.payload;
+      const index = bugs.findIndex((bug) => bug.id === bugId);
+      bugs[index].assignedTo = userId;
+    },
   },
 });
 
 console.log(slice);
 
-export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
+export const { bugAdded, bugRemoved, bugResolved, bugAssignedToUser } =
+  slice.actions;
 export default slice.reducer;
 
 // Selectors (This will cause rerender even if the state is unchanged)
@@ -86,3 +93,9 @@ export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs, // state functions can be more than one
   (bugs) => bugs.filter((bug) => !bug.resolved) // result function takes the previous states as input
 );
+
+export const getBugsByUserId = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.assignedTo === userId)
+  );
