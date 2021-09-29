@@ -1,13 +1,15 @@
-import store from "./store/configureStore";
+import getStore from "./store/configureStore";
 import * as actions from "./store/bugs";
 
+const store = getStore();
 // subscriber runs until called explicitly
 const unsubscribe = store.subscribe(() =>
   console.log("Store changed to: ", store.getState())
 );
 
-store.dispatch(actions.bugAdded("Bug 1"));
-store.dispatch(actions.bugResolved(1));
-store.dispatch(actions.bugRemoved(1));
+store.dispatch(actions.bugAdded({ description: "Bug 1" }));
+store.dispatch(actions.bugAdded({ description: "Bug 2" }));
+store.dispatch(actions.bugResolved({ id: 2 }));
+store.dispatch(actions.bugRemoved({ id: 1 }));
 unsubscribe();
-store.dispatch(actions.bugAdded("Bug 2"));
+store.dispatch(actions.bugAdded({ description: "Bug 3" }));
