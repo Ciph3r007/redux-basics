@@ -1,6 +1,7 @@
 import getStore from "./store/configureStore";
 import * as actions from "./store/bugs";
 import { projectAdded } from "./store/projects";
+import { getUnresolvedBugs } from "./store/bugs";
 
 const store = getStore();
 // subscriber runs until called explicitly
@@ -15,3 +16,10 @@ store.dispatch(actions.bugResolved({ id: 2 }));
 store.dispatch(actions.bugRemoved({ id: 1 }));
 unsubscribe();
 store.dispatch(actions.bugAdded({ description: "Bug 3" }));
+
+// testing memoization
+const x = getUnresolvedBugs(store.getState());
+const y = getUnresolvedBugs(store.getState());
+
+console.log(x);
+console.log(x === y); // returns true

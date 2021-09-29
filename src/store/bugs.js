@@ -1,4 +1,5 @@
-import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
 /* Action Creators
  * createAction of redux-toolkit takes 'type' as the argument and
@@ -70,3 +71,18 @@ console.log(slice);
 
 export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
 export default slice.reducer;
+
+// Selectors (This will cause rerender even if the state is unchanged)
+// export const getUnresolvedBugs = state => state.entities.bugs.filter(bug => !bug.resolved);
+
+/* Memoization:
+ * This is technique to optimize selectors using cache
+ * If state is unchanged, no rerender will occur
+ * createSelector takes 1 or more states to watch
+ * and uses selector only if the states are changed,
+ * else it uses cache to return the result
+ */
+export const getUnresolvedBugs = createSelector(
+  (state) => state.entities.bugs, // state functions can be more than one
+  (bugs) => bugs.filter((bug) => !bug.resolved) // result function takes the previous states as input
+);
