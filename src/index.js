@@ -13,13 +13,13 @@ import { userAdded } from "./store/users";
 const store = getStore();
 // subscriber runs until called explicitly
 const unsubscribe = store.subscribe(() =>
-  console.log("Store changed to: ", store.getState())
+  console.log("From subscriber: ", store.getState())
 );
 
 // Testing middlewares
-store.dispatch(() => {
-  console.log("in func");
-  store.dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+store.dispatch((dispatch, getState) => {
+  console.log("From func:", getState());
+  dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
 });
 
 // store.dispatch(projectAdded({ name: "Project 1" }));
@@ -42,6 +42,7 @@ store.dispatch(() => {
 const x = getUnresolvedBugs(store.getState());
 const y = getUnresolvedBugs(store.getState());
 
+console.log("Testing Selectors: ");
 console.log(x);
 console.log(x === y); // returns true
 

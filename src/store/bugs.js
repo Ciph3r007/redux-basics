@@ -73,7 +73,7 @@ const slice = createSlice({
   },
 });
 
-console.log(slice);
+console.log("Bugs slice: ", slice);
 
 export const { bugAdded, bugRemoved, bugResolved, bugAssignedToUser } =
   slice.actions;

@@ -2,7 +2,7 @@
 // and before reaching the root reducer or next middleware
 // next() need to be called to pass action forward
 const logger = (param) => (store) => (next) => (action) => {
-  console.log(param);
+  console.log("From logger: ", param);
   next(action);
 };
 
