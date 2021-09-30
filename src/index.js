@@ -16,7 +16,13 @@ const unsubscribe = store.subscribe(() =>
   console.log("Store changed to: ", store.getState())
 );
 
-store.dispatch(projectAdded({ name: "Project 1" }));
+// Testing middlewares
+store.dispatch(() => {
+  console.log("in func");
+  store.dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+});
+
+// store.dispatch(projectAdded({ name: "Project 1" }));
 // store.dispatch(bugAdded({ description: "Bug 1" }));
 // store.dispatch(bugAdded({ description: "Bug 2" }));
 // store.dispatch(bugResolved({ id: 2 }));
